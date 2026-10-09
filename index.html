@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>刷任务赚零花钱App调研报告</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23B5822E'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23FFF' font-family='serif'%3E¥%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<style>
+  :root{
+    --bg:#F6F4EE; --ink:#22343C; --muted:#6B7A80; --gold:#B5822E;
+    --gold-soft:#F3EAD7; --green:#2E7D5B; --green-soft:#E7F0EA;
+    --red:#B23A3A; --red-soft:#F6E7E5; --card:#FFFFFF; --line:#E6E2D8;
+    --serif:'Noto Serif SC',serif; --sans:'Noto Sans SC',system-ui,-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;font-weight:400}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  /* ===== header ===== */
+  header.hero{padding:72px 0 40px;border-bottom:1px solid var(--line)}
+  .kicker{font-size:13px;letter-spacing:.22em;color:var(--gold);font-weight:700;margin-bottom:14px}
+  h1{font-family:var(--serif);font-weight:900;font-size:42px;line-height:1.25;letter-spacing:.01em}
+  .sub{margin-top:16px;font-size:16px;color:var(--muted);max-width:640px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .meta span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:13px;color:var(--ink)}
+  /* ===== key stats ===== */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:34px 0 8px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px}
+  .stat .n{font-family:var(--serif);font-weight:700;font-size:30px;color:var(--ink)}
+  .stat .n.gold{color:var(--gold)} .stat .n.red{color:var(--red)}
+  .stat .t{font-size:13px;color:var(--muted);margin-top:4px}
+  /* ===== section ===== */
+  section{padding:56px 0;border-bottom:1px solid var(--line)}
+  .s-title{font-family:var(--serif);font-weight:700;font-size:26px;margin-bottom:8px}
+  .s-lead{color:var(--muted);font-size:15px;max-width:760px;margin-bottom:26px}
+  h3{font-size:16px;font-weight:700;margin:22px 0 8px}
+  .note{background:var(--gold-soft);border-left:4px solid var(--gold);padding:14px 18px;border-radius:0 10px 10px 0;font-size:14px;color:#5a4630}
+  .note.red{background:var(--red-soft);border-color:var(--red);color:#7a2f2f}
+  /* ===== table ===== */
+  .table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+  table{border-collapse:collapse;width:100%;table-layout:fixed;min-width:860px}
+  colgroup col.c1{width:13%} col.c2{width:9%} col.c3{width:22%} col.c4{width:13%} col.c5{width:15%} col.c6{width:28%}
+  th{background:#F0EDE4;text-align:left;padding:12px 12px;font-size:13px;color:#5a5238;border-bottom:1px solid var(--line);font-weight:700}
+  td{padding:12px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#FBF9F3}
+  .tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;font-weight:600}
+  .tag.video{background:#E7F0EA;color:var(--green)}
+  .tag.novel{background:#F3EAD7;color:var(--gold)}
+  .tag.music{background:#EAF0F7;color:#3E6B9E}
+  .tag.drama{background:#F6EAEC;color:#A84B5A}
+  .tag.info{background:#EFEFF3;color:#5A6070}
+  .range{font-weight:700;color:var(--ink);white-space:nowrap}
+  .src{font-size:12px;color:var(--muted);line-height:1.5}
+  /* ===== chart ===== */
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 22px 12px}
+  #chart{width:100%;height:560px}
+  .cap{font-size:13px;color:var(--muted);margin-top:10px;padding:0 6px}
+  /* ===== timeline ===== */
+  .timeline{display:grid;grid-template-columns:110px 1fr;gap:0 18px;margin-top:10px}
+  .tl-row{display:grid;grid-template-columns:110px 1fr;grid-column:1/-1;padding:18px 0;border-top:1px dashed var(--line)}
+  .tl-row .when{font-family:var(--serif);font-weight:700;color:var(--gold);font-size:15px}
+  .tl-row .what b{display:block;font-size:16px;margin-bottom:3px}
+  .tl-row .what{color:var(--ink);font-size:14px}
+  .tl-row .what .v{color:var(--muted);font-size:13px}
+  /* ===== risk cards ===== */
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:8px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px}
+  .card .hd{font-size:15px;font-weight:700;margin-bottom:6px}
+  .card .bd{font-size:14px;color:#3f4f56}
+  .card.bad .hd{color:var(--red)}
+  /* ===== adv ===== */
+  ol.adv{margin:10px 0 0 20px}
+  ol.adv li{margin-bottom:10px;font-size:14px}
+  ol.adv li b{color:var(--green)}
+  /* ===== sources ===== */
+  .sources{font-size:13px;color:var(--muted)}
+  .sources li{margin-bottom:6px;list-style:none;padding-left:0}
+  .sources a{color:#3E6B9E;word-break:break-all}
+  .sources .s{display:block;color:#8a6d3b;font-size:12px}
+  footer{padding:34px 0 60px;color:var(--muted);font-size:13px}
+  .disclaim{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:22px;font-size:13px;line-height:1.8}
+  @media(max-width:760px){
+    h1{font-size:30px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .cards{grid-template-columns:1fr}
+    .timeline{grid-template-columns:80px 1fr;gap:0 12px}
+    .tl-row{grid-template-columns:80px 1fr}
+    header.hero{padding:48px 0 28px}
+    section{padding:44px 0}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">调研报告 · EARN-TO-READ / WATCH / LISTEN</div>
+    <h1>刷任务赚零花钱 App 调研报告</h1>
+    <p class="sub">看视频、看小说、听音乐、刷短剧就能赚金币兑换现金——这类“极速版/番茄系/短剧系”App 到底能赚多少、有哪些套路与风险？本报告基于公开实测与媒体报道，梳理主流平台、收益区间与注意事项。</p>
+    <div class="meta">
+      <span>调研时间 2026-10-09</span>
+      <span>覆盖平台 12+</span>
+      <span>类型：视频 / 小说 / 音频 / 短剧 / 资讯</span>
+      <span>数据来源：公开实测 + 媒体报道</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section>
+    <div class="stats">
+      <div class="stat"><div class="n">1–3<span style="font-size:16px"> 元</span></div><div class="t">主流平台纯刷内容·日收益参考</div></div>
+      <div class="stat"><div class="n gold">7–14<span style="font-size:16px"> 天</span></div><div class="t">新人福利期，之后金币普遍大幅衰减</div></div>
+      <div class="stat"><div class="n gold">0.3<span style="font-size:16px"> 元起</span></div><div class="t">多数平台最低提现门槛（小额可提）</div></div>
+      <div class="stat"><div class="n red">≪ 1<span style="font-size:16px"> 元</span></div><div class="t">稳定使用后每日实际收益普遍不足 1 元</div></div>
+    </div>
+    <div class="note" style="margin-top:22px">重要：以下“日收益”均为<b>纯刷内容、不拉新邀请</b>的参考区间，会随平台政策、使用时长、新人/老用户身份而大幅浮动。新人期偏高、持续使用后明显衰减。这类 App 只适合赚小额零花钱，不能作为主要收入来源。</div>
+  </section>
+  <!-- ===== 平台对比表 ===== -->
+  <section>
+    <div class="s-title">一、主流平台总览与日收益对比</div>
+    <p class="s-lead">按“刷内容赚金币”的核心玩法分类。收益均为不拉新、纯日常刷取的参考区间（元/天），具体以各平台当日实际发放为准。</p>
+    <div class="table-scroll">
+      <table>
+        <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"><col class="c6"></colgroup>
+        <thead><tr><th>平台</th><th>类型</th><th>核心玩法</th><th>日收益参考(元)</th><th>提现门槛</th><th>特点 / 备注</th></tr></thead>
+        <tbody>
+          <tr><td>抖音极速版</td><td><span class="tag video">视频</span></td><td>刷短视频、签到、开宝箱、逛街、吃饭打卡</td><td class="range">1 – 3</td><td>0.3 元起</td><td>广告多给币不小气，新人期更高，用久明显衰减</td></tr>
+          <tr><td>快手极速版</td><td><span class="tag video">视频</span></td><td>签到、开宝箱、看满 45 分钟得金币</td><td class="range">1 – 3</td><td>约 0.3 元</td><td>相对省时，看完固定时长可领 9999 金币</td></tr>
+          <tr><td>今日头条极速版</td><td><span class="tag info">资讯</span></td><td>看资讯、短视频、小说、短剧</td><td class="range">0.5 – 3</td><td>0.5 元起</td><td>0.5 元即可小额提现，任务多样</td></tr>
+          <tr><td>西瓜视频</td><td><span class="tag video">视频</span></td><td>刷长短视频、预约领金币</td><td class="range">0.3 – 2</td><td>—</td><td>字节系，金币规则接近头条</td></tr>
+          <tr><td>番茄小说</td><td><span class="tag novel">小说</span></td><td>看小说、听书、看广告领金币</td><td class="range">0.5 – 2</td><td>0.3 / 20 / 50 元档</td><td>实测一天最多约 3 元，看久了金币变少</td></tr>
+          <tr><td>番茄畅听</td><td><span class="tag music">音频</span></td><td>听书、听歌、阅读、签到、开宝箱</td><td class="range">0.5 – 2</td><td>0.3 元起</td><td>后台挂着听也能攒，提现门槛友好</td></tr>
+          <tr><td>汽水音乐</td><td><span class="tag music">音乐</span></td><td>听歌、音乐类短视频任务</td><td class="range">0.5 – 2</td><td>—</td><td>字节旗下，新人期任务收益较高</td></tr>
+          <tr><td>百度极速版</td><td><span class="tag info">资讯</span></td><td>刷资讯、短视频、搜索任务</td><td class="range">0.5 – 2</td><td>—</td><td>百度旗下，边查资料边做任务</td></tr>
+          <tr><td>红果免费短剧</td><td><span class="tag drama">短剧</span></td><td>看短剧、每日签到</td><td class="range">0.5 – 3</td><td>0.3 元（1 万金币≈1 元）</td><td>新人连签最高 15 元；宣传“单日上限 57 元”实际远达不到</td></tr>
+          <tr><td>河马剧场</td><td><span class="tag drama">短剧</span></td><td>看短剧、饭点补贴、邀请新人</td><td class="range">0.5 – 2</td><td>0.3 元（微信/支付宝各一次）</td><td>邀请新注册最高 20 元（属拉新收益）</td></tr>
+          <tr><td>悟空浏览器</td><td><span class="tag info">资讯</span></td><td>浏览网页、看视频、看小说</td><td class="range">0.5 – 2</td><td>—</td><td>综合任务型</td></tr>
+          <tr><td>七猫免费小说</td><td><span class="tag novel">小说</span></td><td>看小说、听书</td><td class="range">0.3 – 1.5</td><td>新人 1–3 天每日可提 0.3 元</td><td>金币较少，适合本来就爱看书的人</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cap" style="margin-top:10px">注：表中“日收益参考”为综合公开实测与博主记录的常见区间，为便于比较已归一为人民币；不同账号、不同阶段差异很大，仅作参考。</p>
+  </section>
+
+  <!-- ===== 图表 ===== -->
+  <section>
+    <div class="s-title">二、各平台日收益区间对比</div>
+    <p class="s-lead">纵向为各平台“纯刷内容”的日收益参考区间（元）。柱体越靠右收益越高，但整体都不高——这正是该类 App 的真实画像。</p>
+    <div class="chart-card">
+      <div id="chart"></div>
+    </div>
+    <p class="cap">数据口径：新人期偏高、稳定使用后偏低的常见区间（元/天），汇总自公开实测与博主记录。区间上沿≈新人期表现，下沿≈衰减后表现。</p>
+  </section>
+
+  <!-- ===== 衰减时间轴 ===== -->
+  <section>
+    <div class="s-title">三、金币衰减：从“新人红利”到“几毛钱”</div>
+    <p class="s-lead">几乎所有同类 App 都遵循“前高后低”的节奏。理解这条曲线，才能避免被“日赚几十”的广告话术误导。</p>
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="when">第 1–3 天</div>
+        <div class="what"><b>新人“见面礼”期</b>多数平台给登录红包 / 见面礼（如番茄系 8888 金币≈0.3 元、新人现金红包等），单日收益最高。<span class="v">· 常见区间：2–4 元甚至更高</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="when">第 4–14 天</div>
+        <div class="what"><b>红利快速回落</b>金币开始减少，但仍相对可观，任务种类最多（签到、宝箱、看时长、逛街）。<span class="v">· 常见区间：1–3 元</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="when">2 周以后</div>
+        <div class="what"><b>进入“稳定衰减”期</b>每刷一个视频的金币从几百降到几十、个位数；单日收益普遍跌破 1 元，很多人在 0.3–0.6 元徘徊。<span class="v">· 常见区间：0.3–1 元</span></div>
+      </div>
+      <div class="tl-row">
+        <div class="when">长期</div>
+        <div class="what"><b>平台收益策略随广告行情浮动</b>金币与现金兑换比例（常见 10000:1、33000:1）受每日广告收入影响，平台可随时调整；部分活动福利若长期不登录还会过期清零。<span class="v">· 需长期打卡维持</span></div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:16px">媒体实测佐证：有记者连刷 6 小时短剧，按 33000:1 兑换实际收益不足 0.54 元（京报网）；另有记者用半个月读完 123 部短篇，账面现金收益仅 1.05 元（天津日报）。央视/央广等报道也指出“后期每天提现不到 0.3 元”是常态。</div>
+  </section>
+
+  <!-- ===== 提现套路 ===== -->
+  <section>
+    <div class="s-title">四、提现门槛与常见“套路”</div>
+    <p class="s-lead">“能赚但难拿出来”是本类 App 的核心设计逻辑。把真实机制看透，就不会在提现环节踩坑。</p>
+    <div class="cards">
+      <div class="card bad"><div class="hd">小额诱饵 + 大额门槛</div><div class="bd">用 0.3 / 0.5 元的小额快速提现吸引留存，而 20 元、50 元等高额档位普遍设置“等级/连签/任务数”门槛，普通人几乎达不到，收益被变相锁定。</div></div>
+      <div class="card bad"><div class="hd">时间换“几毛钱”</div><div class="bd">据测算，需阅读四五百分钟资讯或观看十几个小时短视频，才可能赚到 1 元。投入产出比极低，用户实际是在为平台“看广告”买单。</div></div>
+      <div class="card bad"><div class="hd">福利过期 / 清零</div><div class="bd">部分平台规定连续 15 个自然日未进入任务页或未领取福利，此前奖励过期、未提现现金直接清零，逼用户每天打卡。</div></div>
+      <div class="card bad"><div class="hd">权限与信息收集</div><div class="bd">注册/提现常要求授权通讯录、位置、相册、存储，甚至上传身份证、绑定银行卡；个人信息存在被收集、泄露的风险。</div></div>
+    </div>
+    <div class="note red" style="margin-top:16px">凡是提示“要充值、交手续费、开通会员才能提现”的，一律是骗局，直接卸载。合规平台的提现不应向用户收取任何费用。</div>
+  </section>
+
+  <!-- ===== 风险与合规 ===== -->
+  <section>
+    <div class="s-title">五、风险与合规提示</div>
+    <p class="s-lead">在“薅羊毛”的同时，以下几类风险尤其要留意，尤其是老年人更易中招。</p>
+    <div class="cards">
+      <div class="card bad"><div class="hd">“幽灵扣款”陷阱</div><div class="bd">部分诱导页面用红色大字“领红包”引用户点击，实际把用户引导到支付界面，老人误触后可能产生 150–199 元不等的无感扣款。对任何跳转到支付页的“领钱”要高度警惕。</div></div>
+      <div class="card bad"><div class="hd">网赚游戏虚假宣传</div><div class="bd">不少网赚/任务类小游戏宣称“躺赚”，完成后却以“条件不足、客服不作为”拒不兑现，积攒金额无法提现（黑猫投诉有大量相关案例）。</div></div>
+      <div class="card bad"><div class="hd">模拟器 / 脚本多开违规</div><div class="bd">抖音极速版、快手、番茄等用户协议明确禁止用模拟器、群控、脚本、外挂等非人工方式刷金币，也不允许一人多账号批量薅奖励。一旦被识别：金币清零、账号永久封禁、收益无法提现，还可能波及相关联账号。</div></div>
+      <div class="card bad"><div class="hd">脚本与不知名 App 本身不安全</div><div class="bd">网上流传的自动挂机脚本常捆绑木马、盗号程序；以“带你赚钱”为名引导下载的不知名 App 更可能窃取账号、手机号与支付信息。</div></div>
+    </div>
+    <h3>合规边界</h3>
+    <ul style="margin-left:20px;font-size:14px">
+      <li><b>合规：</b>真人手动、正常频率使用单个账号刷内容/做任务，属平台允许的正常使用，可小额提现。</li>
+      <li><b>违规：</b>叠加自动脚本挂机、模拟器多开、多账号批量刷金币，属于不正当获取平台奖励，违反平台规则，也涉嫌流量造假，规模过大还有法律风险。</li>
+    </ul>
+  </section>
+
+  <!-- ===== 建议 ===== -->
+  <section>
+    <div class="s-title">六、理性参与：怎么挑、怎么用</div>
+    <p class="s-lead">如果只是想顺手赚点零花钱，按下面思路挑选与使用，踩坑概率更低。</p>
+    <ol class="adv">
+      <li><b>只选大厂出品</b>（字节、快手、百度等旗下），至少小额提现顺畅；优先挑 <b>0.3 元即可提现</b> 的平台。</li>
+      <li><b>不要装一堆 App</b>——每个都装只会让你的手机变慢、权限被过度收集。挑 2–4 个你本来就在用（看剧/看书/听歌）的平台即可，把“顺手”当收益。</li>
+      <li><b>把它当“零花钱”，不是收入</b>：一天 1–3 元是常态，时薪远低于普通兼职。别为了几毛钱去拉人头、充值或泄露隐私。</li>
+      <li><b>明确拒绝一切要你掏钱的环节</b>：充值、手续费、开会员才能提现 = 骗局，直接卸载并停止使用。</li>
+      <li><b>保护隐私：</b>提现要求绑定银行卡、上传身份证时，先确认是官方平台；不必要的权限一律不给。</li>
+    </ol>
+  </section>
+
+  <!-- ===== 来源 ===== -->
+  <section>
+    <div class="s-title">信息来源（部分关键参考）</div>
+    <ul class="sources">
+      <li>央广网·“指尖任务”暗藏猫腻：初期每天提现 1 元以上，后期不足 0.3 元<span class="s">news.cnr.cn/native/gd/kx/20260423/…</span></li>
+      <li>京报网·微短剧“收割”老人：刷 6 小时“赚”5 毛 4，兑换比例 33000:1<span class="s">xinwen.bjd.com.cn/content/s6948aef3e4b0687a288ea9ed.html</span></li>
+      <li>天津日报·你的时间成了别人的商品：半月读 123 部短篇收益 1.05 元<span class="s">epaper.tianjinwe.com/tjrb/h5/html5/2026-01/23/…</span></li>
+      <li>36氪·刷一天“极速版”App 能赚多少钱：新人见面礼、金币兑换与衰减实测<span class="s">36kr.com/p/2341286193405577</span></li>
+      <li>光明网·“赚钱 APP”真的能赚钱吗：需刷十几小时才赚 1 元、提现难<span class="s">toutiao.com/group/6724097965666861576/</span></li>
+      <li>海南省消费者委员会·警惕“赚钱类 App”：流量收割、提现设限、信息泄露四大套路<span class="s">hn315.net.cn/web_newones.asp?id=19708</span></li>
+      <li>新浪财经·网赚游戏《爷爷的农院》被控无法提现<span class="s">finance.sina.com.cn/jjxw/2026-04-17/…</span></li>
+      <li>环球网·福利过期清零条款：15 个自然日不领取则现金清零<span class="s">society.huanqiu.com/article/4PdyWELaToj</span></li>
+      <li>多家博主“薅羊毛”实测：番茄系 / 汽水音乐 / 抖音 / 红果等日收益记录（抖音公开视频）</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="disclaim">
+      <b>免责声明</b>：本报告为信息整理与科普性质，基于公开报道、媒体实测与博主记录综合而成，不代表对任一平台的官方背书或收益承诺。各平台金币规则、兑换比例、提现门槛与活动政策随时可能调整，实际收益以平台当日发放为准。请理性参与，保护个人信息，切勿向任何平台充值。
+    </div>
+    <div>调研报告 · 数据截至 2026-10-09 · 本页为静态单文件 HTML，可离线打开</div>
+  </footer>
+
+  <!-- ===== ECharts ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <script>
+  (function(){
+    var data=[
+      ['抖音极速版','视频',0.7,3],['快手极速版','视频',0.8,3],['今日头条极速版','资讯',0.5,3],
+      ['红果免费短剧','短剧',0.5,3],['西瓜视频','视频',0.3,2],['番茄小说','小说',0.5,2],
+      ['番茄畅听','音频',0.5,2],['汽水音乐','音乐',0.5,2],['百度极速版','资讯',0.5,2],
+      ['河马剧场','短剧',0.5,2],['悟空浏览器','资讯',0.5,2],['七猫免费小说','小说',0.3,1.5]
+    ];
+    var el=document.getElementById('chart');
+    if(!el || typeof echarts==='undefined'){ if(el){el.innerHTML='<div style="padding:40px;color:#6B7A80;text-align:center">图表加载失败（未联网），请以表格数据为准。</div>';} return; }
+    var chart=echarts.init(el);
+    var names=[], mins=[], maxs=[], cats={};
+    data.forEach(function(d){names.push(d[0]);mins.push(d[2]);maxs.push(d[3]);});
+    var catColor={视频:'#2E7D5B',小说:'#B5822E',音乐:'#3E6B9E',短剧:'#A84B5A',资讯:'#5A6070'};
+    var color=data.map(function(d){return catColor[d[1]]||'#5A6070';});
+    chart.setOption({
+      grid:{left:110,right:86,top:20,bottom:40},
+      tooltip:{trigger:'axis',confine:true,
+        formatter:function(ps){
+          var i=ps[0].dataIndex;return names[i]+'（'+data[i][1]+'）<br>日收益区间：'+data[i][2]+' ~ '+data[i][3]+' 元';
+        }},
+      xAxis:{type:'value',name:'元/天',nameLocation:'end',axisLine:{lineStyle:{color:'#22343C'}},splitLine:{lineStyle:{color:'#EFEDE4'}},axisLabel:{color:'#6B7A80',formatter:'{value}'}},
+      yAxis:{type:'category',data:names,inverse:true,axisLine:{show:false},axisTick:{show:false},axisLabel:{color:'#22343C',fontSize:12}},
+      series:[
+        {type:'bar',data:data.map(function(d){return [d[2],d[3]];}),barWidth:16,
+          itemStyle:{color:function(p){return catColor[data[p.dataIndex][1]]||'#5A6070';},borderRadius:4},
+          label:{show:true,position:'right',color:'#22343C',fontSize:11,formatter:function(p){return p.value[1]+' 元';}},
+          emphasis:{itemStyle:{opacity:0.85}}}
+      ]
+    });
+    window.addEventListener('resize',function(){chart.resize();});
+  })();
+  </script>
+</div>
+</body>
+</html>
