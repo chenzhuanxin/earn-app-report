@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo.png" width="120" alt="earn-app-report"></p>
+
 # 刷任务赚零花钱 App 调研报告
 
 > 看视频 / 看小说 / 听音乐 / 刷短剧就能赚金币兑换现金——这类「极速版 / 番茄系 / 短剧系」App 到底能赚多少、有哪些套路与风险？
